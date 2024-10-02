@@ -1,0 +1,156 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "Is anyone there?",
+        "Hello",
+        "Hay",
+        "Hello!",
+        "How are u?",
+        "How do u do?"
+      ],
+      "responses": [
+        "Hello",
+        "Hi",
+        "Hi there",
+        "Hello, Bot here! How r u?",
+        "Hi",
+        "Hello",
+        "I am fine",
+        "Fine here, how about u?",
+        "Hello, Bot here! How r u?"
+      ]
+    },
+    {
+      "tag": "greetingFr",
+      "patterns": [
+        "Salut",
+        "Y a-t-il quelqu’un?",
+        "Bonjour",
+        "Bonjour!",
+        "Comment vas-tu?",
+        "Est-ce que quelqu'un est là?",
+        "bonsoir",
+        "adieu"
+      ],
+      "responses": [
+        "Bonjour",
+        "Salut",
+        "Bonjour, Bot ici! Comment vas-tu?",
+        "Je vais bien",
+        "Très bien ici, et vous?",
+        "Bonjour, Bot ici! Comment vas-tu?",
+        "bienvenue"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye"
+      ],
+      "responses": [
+        "See you later",
+        "Have a nice day",
+        "Bye! Come back again",
+        "Bye Buddy",
+        "Meet u again",
+        "Bye",
+        "Thanks for visiting!"
+      ]
+    },
+    {
+      "tag": "goodbyeFR",
+      "patterns": [
+        "Au revoir",
+        "A très bientôt",
+        "A bientôt",
+        "à la prochaine",
+        "à la revoyure",
+        "au plaisir",
+        "bye bye",
+        "ciao"
+      ],
+      "responses": [
+        "Au revoir! Reviens encore",
+        "Bonne journée",
+        "plaisir de vous rencontrer à nouveau"
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Thanks for the help",
+        "thank u"
+      ],
+      "responses": [
+        "Happy to help!",
+        "Any time!",
+        "My pleasure",
+        "You're most welcome!",
+        "My pleasure!",
+        "Happy to help anytime"
+      ]
+    },
+    {
+      "tag": "thanksFR",
+      "patterns": [
+        "Merci",
+        "Merci",
+        "C'est utile",
+        "Merci pour l'aide",
+        "Merci beaucoup.",
+        "Un grand merci.",
+        "Merci infiniment",
+        "Mille merci",
+        "Merci du fond du coeur",
+        "Merci bien"
+      ],
+      "responses": [
+        "Je suis heureux de vous aider",
+        "A tout moment!",
+        "Avec plaisir!",
+        "Vous etes le bienvenu",
+        "Mon plaisir!",
+        "Heureux d'aider"
+      ]
+    },
+    {
+      "tag": "search_parts",
+      "patterns": [
+        "I need a car part",
+        "Find a car part",
+        "Looking for car parts",
+        "Search car parts",
+        "Get car part",
+        "Find part for my car"
+      ],
+      "responses": [
+        "Sure, which car part are you looking for?",
+        "Tell me the part you need",
+        "What car part do you want to find?"
+      ]
+    },
+    {
+      "tag": "search_partsFR",
+      "patterns": [
+        "Je cherche une pièce de voiture",
+        "Trouver une pièce de voiture",
+        "Chercher des pièces",
+        "Obtenez des pièces de voiture"
+      ],
+      "responses": [
+        "Bien sûr, quelle pièce recherchez-vous?",
+        "Dites-moi la pièce que vous recherchez",
+        "Quelle pièce de voiture voulez-vous trouver?"
+      ]
+    }
+  ]
+}

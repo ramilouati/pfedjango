@@ -1,119 +1,82 @@
+from insurance.models import Assure
 from rest_framework import serializers
-from .models import *
-
-
-class AssuranceContratSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AssuranceContrat
-        fields = '__all__'
-
 
 class AssureSerializer(serializers.ModelSerializer):
-    contrat = AssuranceContratSerializer()  # Nested serializer to include AssuranceContrat details
+    # Assuming you want to serialize vehicles along with assure, but vehicles is optional
+    vehicles = serializers.PrimaryKeyRelatedField(many=True, read_only=True)  # or you can define a custom method
 
     class Meta:
         model = Assure
-        fields = ['id', 'nom', 'prenom', 'adresse', 'tel', 'contrat']
+        fields = ['nom', 'prenom', 'adresse', 'tel', 'nom_assurance', 'police', 'agence', 'date_debut_attestation', 'date_fin_attestation', 'vehicles']
 
-    # Optional: Create or update related AssuranceContrat data
+    # Optionally, you can define a method to return serialized vehicles data if needed
+    def get_vehicles(self, obj):
+        from Vehicles.serializers import VehicleSerializer  # Import locally to avoid circular import
+        vehicles = obj.vehicles.all()
+        return VehicleSerializer(vehicles, many=True).data
+
+
     def create(self, validated_data):
-        contrat_data = validated_data.pop('contrat')
-        contrat = AssuranceContrat.objects.create(**contrat_data)
-        assure = Assure.objects.create(contrat=contrat, **validated_data)
+        # Handle vehicles data if it exists
+
+        # Create the Assure instance
+        assure = Assure.objects.create(**validated_data)
+
+        # If vehicles data is provided, create vehicle entries linked to assure
+
         return assure
 
     def update(self, instance, validated_data):
-        contrat_data = validated_data.pop('contrat')
+        # Pop the vehicles data if it exists
+        vehicles_data = validated_data.pop('vehicles', None)
+
+        # Update the Assure instance
         instance.nom = validated_data.get('nom', instance.nom)
         instance.prenom = validated_data.get('prenom', instance.prenom)
-        instance.adresse = validated_data.get('adresse', instance.adresse)
+        instance.address = validated_data.get('address', instance.address)
         instance.tel = validated_data.get('tel', instance.tel)
-
-        # Update or create AssuranceContrat
-        contrat = instance.contrat
-        contrat.nom_assurance = contrat_data.get('nom_assurance', contrat.nom_assurance)
-        contrat.police = contrat_data.get('police', contrat.police)
-        contrat.agence = contrat_data.get('agence', contrat.agence)
-        contrat.date_debut_attestation = contrat_data.get('date_debut_attestation', contrat.date_debut_attestation)
-        contrat.date_fin_attestation = contrat_data.get('date_fin_attestation', contrat.date_fin_attestation)
-        contrat.save()
-
+        instance.nom_assurance = validated_data.get('nom_assurance', instance.nom_assurance)
+        instance.police = validated_data.get('police', instance.police)
+        instance.agence = validated_data.get('agence', instance.agence)
+        instance.date_debut_attestation = validated_data.get('date_debut_attestation', instance.date_debut_attestation)
+        instance.date_fin_attestation = validated_data.get('date_fin_attestation', instance.date_fin_attestation)
         instance.save()
-        return instance
 
-    def create(self, validated_data):
-        # Pop nested data for contrat and vehicles
-        contrat_data = validated_data.pop('contrat')
-        vehicles_data = validated_data.pop('vehicles')
+        # If vehicles data is provided, update or create vehicle entries linked to assure
+        if vehicles_data:
+            for vehicle_data in vehicles_data:
+                # You can update existing vehicles or create new ones as needed
+                Vehicle.objects.update_or_create(assure=instance, **vehicle_data)
 
-        # Create AssuranceContrat object
-        contrat = AssuranceContrat.objects.create(**contrat_data)
-
-        # Create Assure object
-        assure = Assure.objects.create(contrat=contrat, **validated_data)
-
-        # Create associated Vehicle objects
-        for vehicle_data in vehicles_data:
-            Vehicle.objects.create(assure=assure, **vehicle_data)
-
-        return assure
-
-class VehicleSerializer(serializers.ModelSerializer):
-    assure = AssureSerializer()  # Nested serializer to include Assure details
-
-    class Meta:
-        model = Vehicle
-        fields = ['id', 'marque', 'type', 'model', 'date_fabrication', 'assure']
-
-    def create(self, validated_data):
-        assure_data = validated_data.pop('assure')
-        assure_serializer = AssureSerializer(data=assure_data)
-        if assure_serializer.is_valid():
-            assure = assure_serializer.save()
-        vehicle = Vehicle.objects.create(assure=assure, **validated_data)
-        return vehicle
-
-    def update(self, instance, validated_data):
-        assure_data = validated_data.pop('assure')
-        assure_serializer = AssureSerializer(instance.assure, data=assure_data)
-        if assure_serializer.is_valid():
-            assure_serializer.save()
-
-        instance.marque = validated_data.get('marque', instance.marque)
-        instance.type = validated_data.get('type', instance.type)
-        instance.model = validated_data.get('model', instance.model)
-        instance.date_fabrication = validated_data.get('date_fabrication', instance.date_fabrication)
-        instance.save()
         return instance
 
 
+# class EntretienSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Entretien
+#         fields = '__all__'
+# class ConstatSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Constat
+#         fields = '__all__'
 
-class EntretienSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Entretien
-        fields = '__all__'
-class ConstatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Constat
-        fields = '__all__'
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = '__all__'
 
 
-class AssuranceContratSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AssuranceContrat
-        fields = ['id', 'nom_assurance', 'police', 'agence', 'date_debut_attestation', 'date_fin_attestation']
+# class AssuranceContratSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AssuranceContrat
+#         fields = ['id', 'nom_assurance', 'police', 'agence', 'date_debut_attestation', 'date_fin_attestation']
 
-class DegatApparentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DegatApparent
-        fields = '__all__'
+# class DegatApparentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = DegatApparent
+#         fields = '__all__'
 
-class ConversationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Conversation
-        fields = '__all__'
+# class ConversationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Conversation
+#         fields = '__all__'

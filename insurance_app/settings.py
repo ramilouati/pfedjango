@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,6 @@ SECRET_KEY = 'django-insecure-*5p)*3lv102g$*5zssdd6$u4#g^bn1xdasd%2evqui4#wx3qdy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -40,8 +40,40 @@ INSTALLED_APPS = [
     'insurance',
     'insurance_app',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',  # for JWT token blacklisting
+    'Vehicles',
+    'Etretien',
+    'users',
+    'Constat',
+    # 'Conversation',
+ # Django's built-in authentication framework
 
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True  # For development purposes
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2', 'your_local_ip_address']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# JWT Settings (optional custom configurations)
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': 'your-signing-key',
+}
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

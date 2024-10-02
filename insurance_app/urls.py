@@ -18,7 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/', include('insurance.urls')),  # Make sure 'insurance_app' matches your app name
+    path('api/', include('Vehicles.urls')),  # Make sure 'insurance_app' matches your app name
+    path('api/', include('Etretien.urls')),  # Make sure 'insurance_app' matches your app name
+    path('api/', include('users.urls')),  # Make sure 'insurance_app' matches your app name
+    path('api/', include('Constat.urls')),  # Make sure 'insurance_app' matches your app name
+    path('api/', include('Conversation.urls')),  # Make sure 'insurance_app' matches your app name
+    path('admin/', admin.site.urls),
 
 ]
