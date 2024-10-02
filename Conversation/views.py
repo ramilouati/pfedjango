@@ -169,7 +169,7 @@ def talk(request):
         type = data.get('type', '')
         print(message)
         print(type)
-
+        print('ff')
 
         if message:
             if type == "scrapping":

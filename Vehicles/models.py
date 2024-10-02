@@ -8,6 +8,7 @@ class Vehicle(models.Model):
     date_fabrication = models.DateField()
     user = models.CharField(max_length=100)
     image = models.ImageField(upload_to='vehicle_images/', null=True, blank=True)
+    
 
 
     def __str__(self):
