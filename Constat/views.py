@@ -14,12 +14,56 @@ import json
 from Constat.models import Constat
 import json
 # Disable CSRF for this view
+
 @csrf_exempt
 def get_constats(request):
-    constats = Constat.objects.all()
-    constats_data = [{'id': constat.id, 'codeA': constat.codeA, 'codeB': constat.codeB, 'cinA': constat.cinA, 'cinB': constat.cinB} for constat in constats]
-    return JsonResponse(constats_data, safe=False)
+    user_id = request.GET.get('cin')  # Use request.GET to access query parameters
+    
+    constatsAsA = Constat.objects.filter(cinA=user_id).exclude(cinB=None)
+    
+    # Fetch constats where user is cinB and cinA is not None
+    constatsAsB = Constat.objects.filter(cinB=user_id).exclude(cinA=None)
+    
+    # Combine the two querysets
+    constatscompleted = constatsAsA.union(constatsAsB)
+    constatsAsA = Constat.objects.filter(cinA=user_id,cinB=None)
+    
+    # Fetch constats where user is cinB and cinA is not None
+    constatsAsB = Constat.objects.filter(cinB=user_id,cinA=None)
 
+    # Combine the two querysets
+    constatsnoncompleted = constatsAsA.union(constatsAsB)
+
+
+    
+
+    
+    # Prepare data for response
+    constats_data = [
+        {
+            'id': constat.id,
+            'codeA': constat.codeA,
+            'codeB': constat.codeB,
+            'cinA': constat.cinA,
+            'cinB': constat.cinB,
+            'created_at': constat.created_at
+        }
+        for constat in constatscompleted
+    ]
+
+    constats_dat_noncompleted = [
+        {
+            'id': constat.id,
+            'codeA': constat.codeA,
+            'codeB': constat.codeB,
+            'cinA': constat.cinA,
+            'cinB': constat.cinB,
+            'created_at': constat.created_at
+        }
+        for constat in constatsnoncompleted
+    ]
+    
+    return JsonResponse([{"completed":constats_data,"noncompleted":constats_dat_noncompleted}], safe=False)
 
 
 
@@ -117,7 +161,7 @@ def update_constat_with_file(request, constat_id, type, cin):
 
             constat = get_object_or_404(Constat, codeA=constat_id)
 
-            dir = "Constat/static/"
+            dir = "/media/"
             os.makedirs(dir, exist_ok=True)
 
             filepath = os.path.join(dir, f"{constat_id}.json")
@@ -131,15 +175,15 @@ def update_constat_with_file(request, constat_id, type, cin):
                     # Insert the signature image into the PDF
                     # Define the rectangle: (x0, y0, x1, y1)
                     # Adjust the width and height (e.g., 100x50) as needed
-                    signature_rect = fitz.Rect(90, 760, 190, 810)  # Example: width=100, height=50
+                    signature_rect = fitz.Rect(90, 760, 190, 790)  # Example: width=100, height=50
                     page.insert_image(signature_rect, filename=temp_image_path)
                 if croquis:
                     # Insert the signature image into the PDF
                     # Define the rectangle: (x0, y0, x1, y1)
                     # Adjust the width and height (e.g., 100x50) as needed
-                    croquis_rect = fitz.Rect(170, 600, 430, 700) 
+                    croquis_rect = fitz.Rect(170, 604, 430, 698) 
                      # Example: width=100, height=50
-                    page.insert_image(croquis_rect, filename=temp_image_path_croquis,rotate=90)   
+                    page.insert_image(croquis_rect, filename=temp_image_path_croquis,rotate=180)   
 
                 doc.save(os.path.join(dir, f"{constat_id}_output_A.pdf"))
                 constat.vehicleA = filepath

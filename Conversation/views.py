@@ -94,18 +94,22 @@ def scrape_karhabtk_data(url,res):
     return res
 
 def predict_class(sentence, model):
-    # filter out predictions below a threshold
-    p = bow(sentence, words,show_details=False)
+    p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
-    #ERROR_THRESHOLD = 0.25
-    ERROR_THRESHOLD = 0.49
-    results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
-    # sort by strength of probability
+    
+    ERROR_THRESHOLD = 0.6  # You can adjust this based on the performance of the model
+    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     results.sort(key=lambda x: x[1], reverse=True)
-    return_list = []
-    for r in results:
-        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
-    return return_list
+
+    # If no result exceeds the threshold, return an empty list
+    if len(results) == 0:
+        print("No intent found with sufficient confidence.")
+        return []
+    print(f"Model predictions: {res}")
+    print(f"Filtered results: {results}")
+
+    return [{"intent": classes[r[0]], "probability": str(r[1])} for r in results]
+
 
 
 
@@ -146,20 +150,27 @@ def getResponse(ints, intents_json):
             break
     return result
 def chatbot_response(msg):
-  try:
-    
-    ints = predict_class(msg, model)
-    print(ints)
-    res = getResponse(ints, intents)
-   
-    return res
-  except:
-     lang =detect(msg)
-     if lang == "fr":
-      res= " Merci de reposer votre question je n'ai pas compris votre question."
-     elif lang =="en":
-      res="I'm sorry, I don't understand. Could you repeat that, please?"
-     return res
+    try:
+        # Predict the intent
+        ints = predict_class(msg, model)
+
+        # If no intent is found, return the fallback response
+        if not ints:
+            lang = detect(msg)
+            print(f"Detected language: {lang}")
+            return "Merci de reposer votre question, je n'ai pas compris votre question."
+          
+        
+        # If an intent is found, return the appropriate response
+        res = getResponse(ints, intents)
+        print(f"Predicted intent: {ints}")
+        return res
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        # Handle any other error and default to fallback response
+        lang = detect(msg)
+        return "Merci de reposer votre question, je n'ai pas compris votre question."
+      
   
 @csrf_exempt
 def talk(request):

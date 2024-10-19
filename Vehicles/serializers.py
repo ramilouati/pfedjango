@@ -41,17 +41,17 @@ class Base64ImageField(serializers.ImageField):
         return extension
 
 
-class VehicleImageSerializer(serializers.ModelSerializer):
-    image = Base64ImageField()
+# class VehicleImageSerializer(serializers.ModelSerializer):
+#     image = Base64ImageField()
 
-    class Meta:
-        model = VehicleImage
-        fields = ['id', 'image']
+#     class Meta:
+#         model = VehicleImage
+#         fields = ['id', 'image']
 
 
 class VehicleSerializer(serializers.ModelSerializer):
     assure = AssureSerializer()  # Nested AssureSerializer
-    images = VehicleImageSerializer(many=True, required=False)  # Handle multiple images
+    image = Base64ImageField()
 
     class Meta:
         model = Vehicle
@@ -59,7 +59,7 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         assure_data = validated_data.pop('assure')
-        images_data = validated_data.pop('image', [])
+        # images_data = validated_data.pop('image', [])
 
         # Create or update Assure
         assure, created = Assure.objects.update_or_create(
@@ -72,8 +72,8 @@ class VehicleSerializer(serializers.ModelSerializer):
         vehicle = Vehicle.objects.create(assure=assure, **validated_data)
 
         # Save multiple images
-        for image_data in images_data:
-            VehicleImage.objects.create(vehicle=vehicle, **image_data)
+        # for image_data in images_data:
+        #     VehicleImage.objects.create(vehicle=vehicle, **image_data)
 
         return vehicle
 

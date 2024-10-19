@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'Etretien',
     'users',
     'Constat',
-    # 'Conversation',
+    'Conversation',
  # Django's built-in authentication framework
 
 ]
