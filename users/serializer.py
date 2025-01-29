@@ -10,7 +10,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['cin', 'tel', 'nom', 'prenom', 'date_naissance', 'address', 'date_permis', 'password', 'npermis']
+        fields = ['cin', 'tel', 'nom', 'prenom', 'date_naissance', 'address', 'date_permis', 'password', 'npermis','role']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -24,6 +24,12 @@ class RegisterAPIView(APIView):
             serializer.save()
             return Response({'status': 'User created'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class AllUsers(APIView):
+    def get(self):
+        serializer = UserSerializer(CustomUser.objects.all(), many=True)
+        print(serializer.objects.all())
+        return Response(serializer.data)
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     cin = serializers.CharField()

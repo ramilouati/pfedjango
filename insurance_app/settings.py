@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True  # For development purposes
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2', 'your_local_ip_address']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2', '192.168.1.15']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

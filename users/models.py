@@ -27,6 +27,7 @@ class CustomUser(AbstractUser):
     address = models.CharField(max_length=255)
     npermis = models.CharField(max_length=255)
     date_permis = models.DateField(default="2001-01-10")
+    role = models.CharField(max_length=255, default="Conducteur")
     USERNAME_FIELD = 'cin'  # Use 'cin' as the unique identifier
     REQUIRED_FIELDS = ['tel', 'date_naissance', 'nom', 'prenom']
 

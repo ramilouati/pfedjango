@@ -48,6 +48,8 @@ def scrape_autopart_data(url,res):
 
     # List to hold the scraped data
     res = []
+    print(list_items)
+
 
     for item in list_items:
         # Extract the image URL
@@ -150,26 +152,26 @@ def getResponse(ints, intents_json):
             break
     return result
 def chatbot_response(msg):
-    try:
+    # try:
         # Predict the intent
         ints = predict_class(msg, model)
 
         # If no intent is found, return the fallback response
-        if not ints:
-            lang = detect(msg)
-            print(f"Detected language: {lang}")
-            return "Merci de reposer votre question, je n'ai pas compris votre question."
+        # if not ints:
+        #     lang = detect(msg)
+        #     print(f"Detected language: {lang}")
+        #     return "Merci de reposer votre question, je n'ai pas compris votre question."
           
         
         # If an intent is found, return the appropriate response
         res = getResponse(ints, intents)
         print(f"Predicted intent: {ints}")
         return res
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        # Handle any other error and default to fallback response
-        lang = detect(msg)
-        return "Merci de reposer votre question, je n'ai pas compris votre question."
+    # except Exception as e:
+    #     print(f"Error: {str(e)}")
+    #     # Handle any other error and default to fallback response
+    #     lang = detect(msg)
+    #     return "Merci de reposer votre question, je n'ai pas compris votre question."
       
   
 @csrf_exempt
@@ -191,12 +193,14 @@ def talk(request):
                     print(f"{idx}. {result}")
                     if result.startswith("https://autopart.tn"):
                         autopart.append(result)
-                    elif result.startswith("https://www.karhabtk.tn"):
-                        karhabti.append(result)
+                    # elif result.startswith("https://www.karhabtk.tn"):
+                    #     karhabti.append(result)
                 print(karhabti)
                 # scrape_autopart_data(autopart[0],autopart)
                 # scrape_karhabtk_data(karhabti[0],autopart)
+                print(autopart)
                 response = [scrape_autopart_data(autopart[0],autopart),"scrapping result"]
+                print(scrape_autopart_data(autopart[0],autopart))
             else:
                 response = [chatbot_response(message),"chatbot"]
 

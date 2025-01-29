@@ -1,30 +1,6 @@
 {
   "intents": [
     {
-      "tag": "greeting",
-      "patterns": [
-        "Hi",
-        "Hey",
-        "Is anyone there?",
-        "Hello",
-        "Hay",
-        "Hello!",
-        "How are u?",
-        "How do u do?"
-      ],
-      "responses": [
-        "Hello",
-        "Hi",
-        "Hi there",
-        "Hello, Bot here! How r u?",
-        "Hi",
-        "Hello",
-        "I am fine",
-        "Fine here, how about u?",
-        "Hello, Bot here! How r u?"
-      ]
-    },
-    {
       "tag": "greetingFr",
       "patterns": [
         "Salut",
@@ -47,23 +23,6 @@
       ]
     },
     {
-      "tag": "goodbye",
-      "patterns": [
-        "Bye",
-        "See you later",
-        "Goodbye"
-      ],
-      "responses": [
-        "See you later",
-        "Have a nice day",
-        "Bye! Come back again",
-        "Bye Buddy",
-        "Meet u again",
-        "Bye",
-        "Thanks for visiting!"
-      ]
-    },
-    {
       "tag": "goodbyeFR",
       "patterns": [
         "Au revoir",
@@ -78,31 +37,12 @@
       "responses": [
         "Au revoir! Reviens encore",
         "Bonne journée",
-        "plaisir de vous rencontrer à nouveau"
-      ]
-    },
-    {
-      "tag": "thanks",
-      "patterns": [
-        "Thanks",
-        "Thank you",
-        "That's helpful",
-        "Thanks for the help",
-        "thank u"
-      ],
-      "responses": [
-        "Happy to help!",
-        "Any time!",
-        "My pleasure",
-        "You're most welcome!",
-        "My pleasure!",
-        "Happy to help anytime"
+        "Plaisir de vous rencontrer à nouveau"
       ]
     },
     {
       "tag": "thanksFR",
       "patterns": [
-        "Merci",
         "Merci",
         "C'est utile",
         "Merci pour l'aide",
@@ -115,27 +55,11 @@
       ],
       "responses": [
         "Je suis heureux de vous aider",
-        "A tout moment!",
+        "À tout moment!",
         "Avec plaisir!",
-        "Vous etes le bienvenu",
+        "Vous êtes le bienvenu",
         "Mon plaisir!",
         "Heureux d'aider"
-      ]
-    },
-    {
-      "tag": "search_parts",
-      "patterns": [
-        "I need a car part",
-        "Find a car part",
-        "Looking for car parts",
-        "Search car parts",
-        "Get car part",
-        "Find part for my car"
-      ],
-      "responses": [
-        "Sure, which car part are you looking for?",
-        "Tell me the part you need",
-        "What car part do you want to find?"
       ]
     },
     {
@@ -150,6 +74,54 @@
         "Bien sûr, quelle pièce recherchez-vous?",
         "Dites-moi la pièce que vous recherchez",
         "Quelle pièce de voiture voulez-vous trouver?"
+      ]
+    },
+    {
+      "tag": "diagnostic_probleme",
+      "patterns": [
+        "Mon moteur surchauffe",
+        "Le moteur chauffe trop",
+        "Il y a de la fumée sous le capot",
+        "Problème de température moteur",
+        "Surchauffe moteur"
+      ],
+      "responses": [
+        "Il est possible que le capteur de température soit défectueux, ou que l'une des conduites de votre moteur soit obstruée.",
+        "La surchauffe pourrait être due à un radiateur qui fuit, une pompe à eau défectueuse, ou un ventilateur qui ne fonctionne pas correctement.",
+        "Vérifiez le niveau du liquide de refroidissement, il se pourrait qu'il soit trop bas ou qu'il y ait une fuite dans le système.",
+        "Assurez-vous que le radiateur n'est pas bouché et que le ventilateur fonctionne bien."
+      ]
+    },
+    {
+      "tag": "diagnostic_suspension",
+      "patterns": [
+        "Ma voiture rebondit trop",
+        "Suspension bruyante",
+        "Problème avec les amortisseurs",
+        "Suspension défectueuse",
+        "Ma voiture penche d'un côté"
+      ],
+      "responses": [
+        "Il se peut que vos amortisseurs soient usés ou que les ressorts de suspension soient endommagés.",
+        "Vérifiez l'état des amortisseurs et assurez-vous qu'il n'y ait pas de fuite de liquide.",
+        "Un bruit dans la suspension peut indiquer des pièces desserrées ou des caoutchoucs de suspension usés.",
+        "Si la voiture penche d'un côté, un ressort de suspension cassé ou une fuite d'amortisseur pourrait en être la cause."
+      ]
+    },
+    {
+      "tag": "diagnostic_temoins_tableau",
+      "patterns": [
+        "Le voyant moteur est allumé",
+        "Voyant ABS allumé",
+        "Problème avec les témoins du tableau de bord",
+        "Lumière de batterie allumée",
+        "Le voyant de l'huile s'allume"
+      ],
+      "responses": [
+        "Un voyant moteur allumé pourrait indiquer un problème de capteur, un mauvais mélange de carburant ou un autre problème moteur.",
+        "Si le voyant ABS est allumé, vérifiez les capteurs de roue ou le niveau de liquide de frein.",
+        "Un témoin de batterie allumé pourrait signifier un problème d'alternateur ou une batterie défectueuse.",
+        "Le voyant d'huile peut s'allumer en cas de niveau d'huile bas, d'une fuite ou d'un problème avec la pompe à huile."
       ]
     }
   ]

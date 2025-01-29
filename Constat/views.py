@@ -171,20 +171,20 @@ def update_constat_with_file(request, constat_id, type, cin):
                     x, y = parse_coordinates(obj["cor"])
                     page.insert_text((x, y), obj["data"], fontsize=8)
                 
-                if signature:
-                    # Insert the signature image into the PDF
-                    # Define the rectangle: (x0, y0, x1, y1)
-                    # Adjust the width and height (e.g., 100x50) as needed
-                    signature_rect = fitz.Rect(90, 760, 190, 790)  # Example: width=100, height=50
-                    page.insert_image(signature_rect, filename=temp_image_path)
-                if croquis:
-                    # Insert the signature image into the PDF
-                    # Define the rectangle: (x0, y0, x1, y1)
-                    # Adjust the width and height (e.g., 100x50) as needed
-                    croquis_rect = fitz.Rect(170, 604, 430, 698) 
-                     # Example: width=100, height=50
-                    page.insert_image(croquis_rect, filename=temp_image_path_croquis,rotate=180)   
-
+                # if signature:
+                #     # Insert the signature image into the PDF
+                #     # Define the rectangle: (x0, y0, x1, y1)
+                #     # Adjust the width and height (e.g., 100x50) as needed
+                #     signature_rect = fitz.Rect(90, 760, 190, 790)  # Example: width=100, height=50
+                #     page.insert_image(signature_rect, filename=temp_image_path)
+                # if croquis:
+                #     # Insert the signature image into the PDF
+                #     # Define the rectangle: (x0, y0, x1, y1)
+                #     # Adjust the width and height (e.g., 100x50) as needed
+                #     croquis_rect = fitz.Rect(170, 604, 430, 698) 
+                #      # Example: width=100, height=50
+                #     page.insert_image(croquis_rect, filename=temp_image_path_croquis,rotate=180)   
+                    
                 doc.save(os.path.join(dir, f"{constat_id}_output_A.pdf"))
                 constat.vehicleA = filepath
                 constat.save()
